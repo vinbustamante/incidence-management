@@ -1,0 +1,9 @@
+{
+  "stage": "dev",
+  "database": {
+    "connection": {
+      "dialect": "sqlite",
+      "storage": "./data/indicident_management.db"
+    }
+  }
+}
