@@ -1,19 +1,17 @@
 import { join } from 'path';
 import { Sequelize } from 'sequelize-typescript';
-import { Module } from '@nestjs/common';
-import { AuthenticationController } from './contollers/authentication.controller';
+import { Module, ValidationPipe } from '@nestjs/common';
+import { AuthenticationController } from './contollers/AuthenticationController';
 import { ConfigService } from './services/ConfigService';
 import FileService from './services/FileService';
 import { JsonFileConfigMergeService } from './services/JsonFileConfigMergeService';
 import { Resources } from './constant/Resources';
 import { UserRepository } from './repositories/UserRepository';
-import { UserModel } from './repositories/models/UserModel';
 import { UserService } from './services/UserService';
 import { UtilService } from './services/UtilService';
 import { SecurityService } from './services/SecurityService';
 import { AuthenticationService } from './services/AuthenticationService';
-import { RoleModel } from './repositories/models/RoleModel';
-import { UserGroupModel } from './repositories/models/UserGroupModel';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [],
@@ -52,14 +50,25 @@ import { UserGroupModel } from './repositories/models/UserGroupModel';
       provide: Resources.database,
       useFactory: async (config: ConfigService) => {
         const dbConfig = config.getConnectionString();
-        const db = new Sequelize(dbConfig);
-        db.addModels([UserModel, RoleModel, UserGroupModel]);
-        await db.sync();
-        return db;
+        const database = new Sequelize(dbConfig);
+        const modelPath = join(process.cwd(), Resources.path.models, '*.js');
+        database.addModels([modelPath]);
+        await database.sync();
+        return database;
       },
       inject: [ConfigService],
     },
     UserRepository,
+
+    // enable validation
+    {
+      provide: APP_PIPE,
+      useFactory: (): any => {
+        return new ValidationPipe({
+          disableErrorMessages: false,
+        });
+      },
+    },
   ],
 })
 export class AppModule {}

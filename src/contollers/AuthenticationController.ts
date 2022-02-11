@@ -3,7 +3,7 @@ import { AuthenticationService } from 'src/services/AuthenticationService';
 import { IAuthenticationService } from 'src/services/interface/IAuthenticationService';
 import { IUserService } from 'src/services/interface/IUserService';
 import { UserService } from 'src/services/UserService';
-import { UserAuthenticationValidation } from './validation/UserAuthenticationValidation';
+import { UserAuthenticationValidation } from './viewModels/UserAuthenticationValidation';
 
 @Controller('authentication')
 export class AuthenticationController {

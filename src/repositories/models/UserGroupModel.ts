@@ -6,11 +6,11 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Resources } from 'src/constant/Resources';
+import { DatabaseEnum } from 'src/enum/DatabaseEnum';
 import { RoleModel } from './RoleModel';
 import { UserModel } from './UserModel';
 
-@Table({ tableName: Resources.Tables.UserGroup.name })
+@Table({ tableName: DatabaseEnum.Tables.UserGroup.name })
 export class UserGroupModel extends Model {
   @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
   id: number;
