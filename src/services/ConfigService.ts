@@ -12,4 +12,12 @@ export class ConfigService implements IConfigService {
   getConnectionString(): any {
     return this._config.database.connection;
   }
+
+  getJwtSecretKey(): string {
+    return this._config.security.jwt.secretKey;
+  }
+
+  getAccessTokenExpiration(): string {
+    return this._config.security.jwt.accessToken.expiration;
+  }
 }

@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { Sequelize } from 'sequelize-typescript';
 import { Module } from '@nestjs/common';
-import { AuthenticationController } from './authentication/authentication.controller';
+import { AuthenticationController } from './contollers/authentication.controller';
 import { ConfigService } from './services/ConfigService';
 import FileService from './services/FileService';
 import { JsonFileConfigMergeService } from './services/JsonFileConfigMergeService';
@@ -10,6 +10,10 @@ import { UserRepository } from './repositories/UserRepository';
 import { UserModel } from './repositories/models/UserModel';
 import { UserService } from './services/UserService';
 import { UtilService } from './services/UtilService';
+import { SecurityService } from './services/SecurityService';
+import { AuthenticationService } from './services/AuthenticationService';
+import { RoleModel } from './repositories/models/RoleModel';
+import { UserGroupModel } from './repositories/models/UserGroupModel';
 
 @Module({
   imports: [],
@@ -40,6 +44,8 @@ import { UtilService } from './services/UtilService';
     JsonFileConfigMergeService,
     UtilService,
     UserService,
+    SecurityService,
+    AuthenticationService,
 
     // repositories
     {
@@ -47,9 +53,7 @@ import { UtilService } from './services/UtilService';
       useFactory: async (config: ConfigService) => {
         const dbConfig = config.getConnectionString();
         const db = new Sequelize(dbConfig);
-        // const modelPath = join(process.cwd(), Resources.path.models, '*.ts');
-        // db.addModels([modelPath]);
-        db.addModels([UserModel]);
+        db.addModels([UserModel, RoleModel, UserGroupModel]);
         await db.sync();
         return db;
       },

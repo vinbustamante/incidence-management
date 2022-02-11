@@ -5,5 +5,13 @@
       "dialect": "sqlite",
       "storage": "./data/indicident_management.db"
     }
+  },
+  "security": {
+    "jwt": {
+      "secretKey": "this is the secret key",
+      "accessToken": {
+        "expiration": "1h"
+      }
+    }
   }
 }
